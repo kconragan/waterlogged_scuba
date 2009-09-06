@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load comparison %}
+
+{% block title %}Add Dive {% endblock %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block content_header %}Add New Dive{% endblock %}
+
+{% block content %}
+  {% ifequal page_owner user.username %}
+    <h1>Hi {{ user.get_full_name }}</h1>
+    {% ifequal dive_count 0 %}
+      <p>You haven't logged any dives yet</p>
+    {% else %}
+      <p>You have logged <strong>{{ dive_count }} dives</strong> for a total bottom time of <strong>{{ total_dive_time }} minutes</strong>. Your deepest dive to date is {{ deepest_dive }} meters and your longest dive is {{ longest_dive }} minutes.Your favorite dive site is {{ favorite_dive_site }}</p>
+    {% endifequal %}
+    <p><a href="/people/{{ user.username }}/dive/add/">Add Dive</a></p>
+  {% else %}
+    <h1>{{ page_owner }}'s Dives</h1>
+    {% ifequal dive_count 0 %}
+      <p>{{ user.first_name }} hasn't logged any dives yet</p>
+    {% else %}
+      <p>{{ page_owner }} has logged <strong>{{ dive_count }} dives</strong> for a total bottom time of <strong>{{ total_dive_time }} minutes</strong>. {{ page_owner }}'s deepest dive to date is {{ deepest_dive }} meters and longest dive is {{ longest_dive }} minutes. View all of {{ page_owner }}'s <a href="/people/{{ page_owner }}/stats/">stats</a></p>
+    {% endifequal %}
+  {% endifequal %}
+
+  {% if_greater dive_count 0 %}
+  <table id="user-dive-table" cellspacing="0" class="sortable">
+    <thead>
+      <tr>
+        <th class="number">#</th>
+        <th class="date">Date</th>
+        <th>Location</th>
+        <th>Bottom Time</th>
+        <th>Max Depth</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for dive in get_dives %}
+        <tr class="{% cycle even,odd %}">
+          <td><a href="{{ dive.get_absolute_url }}" title="View Dive Profile">{{ dive.dive_number }}</a></td>
+          <td>{{ dive.dive_date }}</td>
+          <td>{{ dive.location }}</td>
+          <td>{{ dive.time }}</td>
+          <td>{{ dive.maxdepth }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif_greater %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Add Dive{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="http://wmedia/includes/js/yui/yahoo/yahoo-min.js"></script>
+<script type="text/javascript" src="http://wmedia/includes/js/yui/connection/connection-min.js"></script>
+<script type="text/javascript" src="http://wmedia/includes/js/yui/event/event-min.js"></script>
+<script type="text/javascript" src="http://wmedia/includes/js/yui/dom/dom-min.js"></script>
+<script type="text/javascript" src="http://wmedia/includes/js/yui/animation/animation-min.js"></script>
+<script type="text/javascript" src="http://wmedia/includes/js/yui/calendar/calendar-min.js" ></script>
+<script type="text/javascript" src="http://wmedia/includes/js/locationManager.js"></script>
+<script type="text/javascript" src="http://wmedia/includes/js/dateManager.js"></script>
+<link type="text/css" rel="stylesheet" href="http://wmedia/includes/js/yui/calendar/assets/calendar.css" />
+<link type="text/css" rel="stylesheet" href="http://wmedia/includes/css/forms.css" />
+{% endblock %}
+
+{% block content_header %}Add New Dive{% endblock %}
+
+{% block content %}
+
+<h1>Add New Dive</h1>
+<form method="post" action="">
+
+  {{ form.as_table }}
+
+</form>
+<div id="addLocationContainer">
+  <p><a href="#" id="closeAddLocationContainer">Cancel</a></p>
+  <form method="post" action="/location/add/?xhr" id="addLocation">
+  <dl>
+    <dt><label for="id_dive_number">Location Name: </label></dt>
+    <dd id="name_container"><input id="id_name" type="text" class="required" name="name" /></dd>
+    <dt><label for="id_dive_date">Description: </label></dt>
+    <dd><textarea name="description" id="id_description"></textarea></dd>
+    <dt><input type="submit" value="Save" /></dt>
+  </dl>
+  </form>
+  <div id="results"></div>
+</div>
+{% endblock %}
